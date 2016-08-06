@@ -25,10 +25,8 @@ class WeightRegularizer(Regularizer):
         self.l2 = K.cast_to_floatx(l2)
         # self.ld = K.cast_to_floatx(ld)
         # self.ld = 0.1
-        self.ld = K.cast_to_floatx(10000.)
-        self.min_weight = K.cast_to_floatx(1e-5)
-        self.lw = K.cast_to_floatx(1e-4)
-        self.l2 = K.cast_to_floatx(0.0)
+        self.ld = K.cast_to_floatx(0.)
+        self.l2 = K.cast_to_floatx(0.0005)
         self.uses_learning_phase = True
 
     def set_param(self, p):
@@ -79,13 +77,13 @@ class WeightRegularizer(Regularizer):
             centered_p = (reshaped_p - p_mean)
             
             centered_p_t = K.transpose(centered_p)
-            covariance = K.dot(centered_p, centered_p_t) / row
+            covariance = K.dot(centered_p, centered_p_t) / col
             print "type of covariance: ", type(covariance)
             print "type of covariance: ", covariance.type
             mask = T.eye(row)
             # regularized_loss += (K.sum(K.square(covariance)) - K.sum(K.square(mask * covariance) - K.sum(mask * covariance))) * self.ld
             # regularized_loss += (K.sum(covariance) - 2 * K.sum(mask * covariance)) * self.ld
-            regularized_loss += K.sum(K.square(covariance - mask * covariance)) * self.ld / (row - 1)
+            regularized_loss += K.sum(K.square(covariance - mask * covariance)) * self.ld / (row- 1)
             # regularized_loss -= K.sum(mask * covariance) * self.ld
             # regularized_loss -= K.sum(K.square(centered_p)) * self.ld
         return K.in_train_phase(regularized_loss, loss)
