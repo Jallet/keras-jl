@@ -22,7 +22,7 @@ from keras.regularizers import l2, activity_l1l2
 
 from PIL import Image
 
-batch_size = 128
+batch_size = 32
 nb_classes = 10
 nb_epoch = 1000
 
@@ -69,14 +69,16 @@ model.add(Convolution2D(16, nb_conv, nb_conv,
                         input_shape=(1, img_rows, img_cols),
                         # W_regularizer = l1l2ld(l1 = 0., l2 = 0., ld = 0.), 
                         W_regularizer = l2(l = 0.), 
-                        b_regularizer = l2(l = 0.)))
+                        b_regularizer = l2(l = 0.),
+                        activity_regularizer = activity_l1l2(l1 = 0., l2 = 0.)))
 model.add(MaxPooling2D(pool_size=(nb_pool, nb_pool)))
 model.add(Convolution2D(32, nb_conv, nb_conv,
                         border_mode='valid',
                         input_shape=(1, img_rows, img_cols),
                         # W_regularizer = l1l2ld(l1 = 0., l2 = 0., ld = 0.), 
                         W_regularizer = l2(l = 0.), 
-                        b_regularizer = l2(l = 0.)))
+                        b_regularizer = l2(l = 0.),
+                        activity_regularizer = activity_l1l2(l1 = 0., l2 = 0.)))
 # model.add(AveragePooling2D(pool_size=(5, 5)))
 # model.add(Dropout(0.25))
 
@@ -87,12 +89,15 @@ model.add(Flatten())
 model.add(Dense(nb_classes, W_regularizer = l2(l = 0.), b_regularizer = l2(l = 0.)))
 model.add(Activation('softmax'))
 
+print("flatten_in_shape: ", model.layers[6].input_shape)
+print("flatten_shape: ", model.layers[6].output_shape)
+
 plot(model, to_file = "./mnist.png", show_shapes = True)
 # sys.exit()
 
-for i in range(len(model.layers)):
-    print("i: ", i) 
-    print(model.layers[i].get_config())
+# for i in range(len(model.layers)):
+#     print("i: ", i) 
+#     print(model.layers[i].get_config())
 
 # sys.exit()
 
