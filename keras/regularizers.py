@@ -26,7 +26,7 @@ class WeightRegularizer(Regularizer):
         # self.ld = K.cast_to_floatx(ld)
         # self.ld = 0.1
         self.ld = K.cast_to_floatx(0.)
-        self.l2 = K.cast_to_floatx(0.001)
+        self.l2 = K.cast_to_floatx(0.002)
         self.uses_learning_phase = True
 
     def set_param(self, p):
