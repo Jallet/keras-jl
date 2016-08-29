@@ -57,7 +57,7 @@ model.add(Convolution2D(32, 3, 3,
                         b_regularizer = l2(l = 0.)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
+# model.add(Dropout(0.25))
 
 model.add(Convolution2D(64, 3, 3, border_mode='same',
                         W_regularizer = l2(l = 0.), 
@@ -68,12 +68,12 @@ model.add(Convolution2D(64, 3, 3,
                         b_regularizer = l2(l = 0.)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
+# model.add(Dropout(0.25))
 
 model.add(Flatten())
 model.add(Dense(512, W_regularizer = l2(l = 0.), b_regularizer = l2(l = 0.)))
 model.add(Activation('relu'))
-model.add(Dropout(0.5))
+# model.add(Dropout(0.5))
 model.add(Dense(nb_classes, W_regularizer = l2(l = 0.), b_regularizer = l2(l = 0.)))
 model.add(Activation('softmax'))
 
