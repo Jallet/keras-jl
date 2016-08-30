@@ -73,7 +73,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(512, W_regularizer = l2(l = 0.), b_regularizer = l2(l = 0.)))
 model.add(Activation('relu'))
-model.add(Dropout(0.5))
+# model.add(Dropout(0.5))
 model.add(Dense(nb_classes, W_regularizer = l2(l = 0.), b_regularizer = l2(l = 0.)))
 model.add(Activation('softmax'))
 
@@ -154,11 +154,12 @@ else:
 # # centered_weights = weights - np.mean(weights, axis = 1, keepdims = True)
 # # covariance = centered_weights * centered_weights.transpose()
 # # np.savetxt("cifar_covariance", covariance, fmt = "%f")
-# loss = history.history["loss"]
-# val_loss = history.history["val_loss"]
-# acc = history.history["acc"]
-# val_acc = history.history["val_acc"]
-# np.savetxt("loss", loss, fmt = "%f")
-# np.savetxt("val_loss", val_loss, fmt = "%f")
-# np.savetxt("acc", acc, fmt = "%f")
-# np.savetxt("val_acc", val_acc, fmt = "%f")
+model.save_weights("./weight/weight")
+loss = history.history["loss"]
+val_loss = history.history["val_loss"]
+acc = history.history["acc"]
+val_acc = history.history["val_acc"]
+np.savetxt("loss", loss, fmt = "%f")
+np.savetxt("val_loss", val_loss, fmt = "%f")
+np.savetxt("acc", acc, fmt = "%f")
+np.savetxt("val_acc", val_acc, fmt = "%f")
