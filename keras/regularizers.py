@@ -49,43 +49,6 @@ class WeightRegularizer(Regularizer):
         
         regularized_loss = loss + K.sum(K.abs(self.p)) * self.l1
         regularized_loss += K.sum(K.square(self.p)) * self.l2
-        # regularized_loss += K.sum(self.min_weight - self.p) * self.lw
-        # return K.in_train_phase(regularized_loss, loss)
-        
-        # regularized_loss += K.sum(K.pow(self.p, 4)) * 1000
-        p_array = self.p.get_value() 
-        print "type of self.p: ", type(self.p)
-        print "ndim of self.p: ", p_array.ndim
-        print "shape of self.p: ", p_array.shape
-        if 4 == self.p.ndim or 2 == self.p.ndim:
-            p_array = self.p.get_value() 
-            print "ndim of self.p: ", self.p.shape
-            shape = self.p.shape
-            size = self.p.size
-            row = shape[0]
-            col = size / row
-            print "type of row: ", row.type, ", type of col: ", col.type
-            if 4 == self.p.ndim:
-                reshaped_p = K.reshape(self.p, (row, col))
-            else:
-                reshaped_p = K.transpose(self.p)
-                row = reshaped_p.shape[0]
-                col = reshaped_p.shape[1]
-            p_mean = K.mean(reshaped_p, axis = 0, keepdims = True)
-            p_std = K.std(reshaped_p, axis = 0, keepdims = True)
-            # centered_p = (reshaped_p - p_mean)  / p_std
-            centered_p = (reshaped_p - p_mean)
-            
-            centered_p_t = K.transpose(centered_p)
-            covariance = K.dot(centered_p, centered_p_t) / col
-            print "type of covariance: ", type(covariance)
-            print "type of covariance: ", covariance.type
-            mask = T.eye(row)
-            # regularized_loss += (K.sum(K.square(covariance)) - K.sum(K.square(mask * covariance) - K.sum(mask * covariance))) * self.ld
-            # regularized_loss += (K.sum(covariance) - 2 * K.sum(mask * covariance)) * self.ld
-            regularized_loss += K.sum(K.square(covariance - mask * covariance)) * self.ld / (row- 1)
-            # regularized_loss -= K.sum(mask * covariance) * self.ld
-            # regularized_loss -= K.sum(K.square(centered_p)) * self.ld
         return K.in_train_phase(regularized_loss, loss)
 
     def get_config(self):
