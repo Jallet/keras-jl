@@ -154,7 +154,6 @@ else:
 # # centered_weights = weights - np.mean(weights, axis = 1, keepdims = True)
 # # covariance = centered_weights * centered_weights.transpose()
 # # np.savetxt("cifar_covariance", covariance, fmt = "%f")
-model.save_weights("./weight/weight")
 loss = history.history["loss"]
 val_loss = history.history["val_loss"]
 acc = history.history["acc"]
@@ -163,3 +162,4 @@ np.savetxt("loss", loss, fmt = "%f")
 np.savetxt("val_loss", val_loss, fmt = "%f")
 np.savetxt("acc", acc, fmt = "%f")
 np.savetxt("val_acc", val_acc, fmt = "%f")
+model.save_weights("./weight/weight", overwrite = True)
